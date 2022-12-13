@@ -1,0 +1,53 @@
+<h3>{{viewTitle}}</h3>
+
+<form action="/appointment" method="POST" autocomplete="off">
+    <input type="hidden" name="_id" value="{{appointment._id}}">
+    <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" class="form-control" name="name" placeholder="Full Name" value="{{appointment.name}}">
+        <div class="text-danger">
+            {{appointment.fullNameError}}</div>
+    </div>
+    <div class="form-group">
+        <label>Email</label>
+        <input type="text" class="form-control" name="email" placeholder="Email" value="{{appointment.email}}">
+        <div class="text-danger">
+            {{appointment.emailError}}</div>
+    </div>
+    <div class="form-group">
+        <label>Phone</label>
+        <input type="text" class="form-control" name="phone" placeholder="Phone" value="{{appointment.phone}}">
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Date</label>
+            <input type="date" class="form-control" name="date" placeholder="Date" value="{{appointment.date}}">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Time Slot</label>
+            <input type="text" class="form-control" id="datetime" name="timeSlot" placeholder="Time Slot"
+                value="{{appointment.timeSlot}}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Appointment For</label>
+        <div>
+            <select class="form-control" name="service" aria-label="Default select example">
+                <option selected>Select Service For Appointment</option>
+                <option value="Pediatrician">Pediatrician</option>
+                <option value="Dietician">Dietician</option>
+                <option value="Dentist">Dentist</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-info"><i class="fa fa-database"></i> Book Appointment</button>
+        <a class="btn btn-secondary" href="/appointment/list"><i class="fa fa-list-alt"></i> View All Appointments</a>
+    </div>
+</form>
+
+<script>
+    $('#datetime').datetimepicker({
+        format: 'hh:mm:ss a'
+    });
+</script>
