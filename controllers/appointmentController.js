@@ -42,6 +42,20 @@ function insertRecord(req, res) {
     });
 }
 
+// READ
+router.get('/list', (req, res) => {
+    Appointment.find((err, docs) => {
+        if (!err) {
+            res.render("appointment/list", {
+                list: docs
+            });
+        }
+        else {
+            console.log('Error in retrieving appointment list :' + err);
+        }
+    });
+});
+
 // UPDATE
 function updateRecord(req, res) {
     Appointment.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true }, (err, doc) => {
@@ -60,19 +74,29 @@ function updateRecord(req, res) {
     });
 }
 
-// READ
-router.get('/list', (req, res) => {
-    Appointment.find((err, docs) => {
+router.get('/:id', (req, res) => {
+    Appointment.findById(req.params.id, (err, doc) => {
         if (!err) {
-            res.render("appointment/list", {
-                list: docs
+            res.render("appointment/addOrEdit", {
+                viewTitle: "Update Appointment",
+                appointment: doc
             });
-        }
-        else {
-            console.log('Error in retrieving appointment list :' + err);
         }
     });
 });
+
+
+// DELETE
+router.get('/delete/:id', (req, res) => {
+    Appointment.findOneAndRemove(req.params.id, (err, doc) => {
+        if (!err) {
+            res.redirect('/appointment/list');
+        }
+        else { console.log('Error in appointment delete :' + err); }
+    });
+});
+
+
 
 
 function handleValidationError(err, body) {
@@ -89,26 +113,5 @@ function handleValidationError(err, body) {
         }
     }
 }
-
-router.get('/:id', (req, res) => {
-    Appointment.findById(req.params.id, (err, doc) => {
-        if (!err) {
-            res.render("appointment/addOrEdit", {
-                viewTitle: "Update Appointment",
-                appointment: doc
-            });
-        }
-    });
-});
-
-// DELETE
-router.get('/delete/:id', (req, res) => {
-    Appointment.findOneAndRemove(req.params.id, (err, doc) => {
-        if (!err) {
-            res.redirect('/appointment/list');
-        }
-        else { console.log('Error in appointment delete :' + err); }
-    });
-});
 
 module.exports = router;
